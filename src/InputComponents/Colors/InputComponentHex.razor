@@ -1,0 +1,78 @@
+﻿@using System.Text.RegularExpressions
+
+@inject IJSRuntime JS
+
+<input type="text" pattern="@Pattern" class="color-picker__component-input" value="@DecToHex(Value)"
+       @ref="_reference" @oninput="@OnValueChanged" />
+
+@code {
+    [Parameter]
+    public int Value { get; set; }
+
+    [Parameter]
+    public EventCallback<int> ValueChanged { get; set; }
+
+    private readonly string Pattern;
+    private readonly Regex Regex;
+
+    private ElementReference _reference;
+
+    public InputComponentHex()
+    {
+        Pattern = @"^[0-9A-Z\s]+$";
+        Regex = new Regex(Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    }
+
+    private async Task OnValueChanged(ChangeEventArgs args)
+    {
+        var value = args.Value.ToString();
+        if (Regex.IsMatch(value))
+        {
+            Value = HexToDec(value);
+        }
+        else
+        {
+            Value = 0;
+        }
+
+        await JS.InvokeVoidAsync("setElementValue", _reference, "value", DecToHex(Value));
+
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private int HexToDec(string value)
+    {
+        value = value.ToUpperInvariant();
+
+        var result = 0;
+        foreach (var c in value)
+        {
+            if (char.IsWhiteSpace(c))
+            {
+                continue;
+            }
+
+            result *= 16;
+
+            if (char.IsDigit(c))
+            {
+                result += c - '0';
+            }
+
+            if (char.IsLetter(c))
+            {
+                result += c - 'A' + 10;
+            }
+        }
+
+        return Math.Clamp(result, 0, 255);
+    }
+
+    private string DecToHex(int value)
+    {
+        return value.ToString("X2");
+    }
+}

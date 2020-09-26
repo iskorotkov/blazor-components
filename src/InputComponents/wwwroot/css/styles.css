@@ -1,0 +1,62 @@
+﻿/*Color picker*/
+.color-picker {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 8px;
+}
+
+.color-picker__input-group {
+}
+
+.color-picker__values-column {
+    width: 8em;
+    margin: 4px;
+}
+
+.color-picker__preview {
+    width: 8em;
+    margin: 4px;
+    border-radius: 10px;
+}
+
+.color-picker__component-input {
+    display: block;
+    min-width: 5em;
+    width: 100%;
+    text-align: center;
+    border: 0px;
+    border-radius: 10px;
+    background-color: #eee;
+    margin: 4px 0px;
+}
+
+.color-picker__mode-list {
+    width: 100%;
+    border: 0;
+    margin: 4px 0px;
+    padding: 4px 4px;
+}
+
+.color-picker__mode-option {
+}
+
+.color-picker__mode-option:checked {
+}
+
+.color-picker__mode-label {
+    display: none;
+}
+
+/*Validation input number*/
+.input-number--valid {
+    background-color: green;
+}
+
+.input-number--invalid {
+    background-color: red;
+}
+
+.input-number--empty {
+}
+

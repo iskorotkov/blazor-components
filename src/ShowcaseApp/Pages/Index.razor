@@ -1,0 +1,13 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<ValidationInputNumber/>
+
+<ColorPicker @bind-Value="@Color"/>
+
+@code {
+    private Color Color = new Color(255, 0, 0, 255);
+}

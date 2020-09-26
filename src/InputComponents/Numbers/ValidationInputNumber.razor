@@ -1,0 +1,34 @@
+﻿<input type="text" class="@ValidationClass" @bind-value="@Value" @bind-value:event="oninput" @onchange="@OnChanged"/>
+
+@code {
+    [Parameter]
+    public string Value { get; set; }
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private string ValidationClass => (IsEmpty(), IsValid()) switch
+    {
+        (true, _) => "input-number--empty",
+        (false, false) => "input-number--invalid",
+        (false, true) => "input-number--valid"
+        };
+
+    public bool IsValid()
+    {
+        return int.TryParse(Value, out _);
+    }
+
+    public bool IsEmpty()
+    {
+        return string.IsNullOrEmpty(Value);
+    }
+
+    private async Task OnChanged()
+    {
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+}

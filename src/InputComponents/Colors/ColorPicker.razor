@@ -1,0 +1,74 @@
+﻿<div class="color-picker">
+    <div class="color-picker__values-column">
+        <label for="picker-mode" class="color-picker__mode-label">Color picker mode</label>
+        <select id="picker-mode" class="color-picker__mode-list" value="@Mode" @onchange="@OnModeChanged">
+            @foreach (var mode in typeof(PickerMode).GetEnumNames())
+            {
+                var value = Enum.Parse<PickerMode>(mode);
+                var friendlyName = value.FriendlyName();
+                <option class="color-picker__mode-option" value="@mode">@friendlyName</option>
+            }
+        </select>
+
+        <div class="color-picker__input-group">
+            @switch (Mode)
+            {
+                case PickerMode.RgbaDec:
+                    <InputComponentDec @bind-Value="@Value.R" />
+                    <InputComponentDec @bind-Value="@Value.G" />
+                    <InputComponentDec @bind-Value="@Value.B" />
+                    <InputComponentDec @bind-Value="@Value.A" />
+                    break;
+                case PickerMode.RgbaHex:
+                    <InputComponentHex @bind-Value="@Value.R" />
+                    <InputComponentHex @bind-Value="@Value.G" />
+                    <InputComponentHex @bind-Value="@Value.B" />
+                    <InputComponentHex @bind-Value="@Value.A" />
+                    break;
+                default:
+                    throw new NotImplementedException("Selected color picker mode is not implemented.");
+            }
+        </div>
+    </div>
+
+    <div class="color-picker__preview" style="background-color: @Value.CssValue;">
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Color Value { get; set; }
+
+    [Parameter]
+    public EventCallback<Color> ValueChanged { get; set; }
+
+    [Parameter]
+    public PickerMode Mode { get; set; } = PickerMode.RgbaDec;
+
+    [Parameter]
+    public EventCallback<PickerMode> ModeChanged { get; set; }
+
+    private async void OnValueChanged(Color color)
+    {
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(color);
+        }
+    }
+
+    private async void OnModeChanged(ChangeEventArgs args)
+    {
+        if (Enum.TryParse<PickerMode>(args.Value.ToString(), out var mode))
+        {
+            Mode = mode;
+            if (ModeChanged.HasDelegate)
+            {
+                await ModeChanged.InvokeAsync(Mode);
+            }
+        }
+        else
+        {
+            throw new ApplicationException($"Selected value isn't of type {nameof(PickerMode)}.");
+        }
+    }
+}
