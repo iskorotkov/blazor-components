@@ -26,7 +26,7 @@
                     <InputComponentHex @bind-Value="@Value.A" />
                     break;
                 default:
-                    throw new NotImplementedException("Selected color picker mode is not implemented.");
+                    throw new ArgumentException("Selected color picker mode must be implemented.", nameof(Mode));
             }
         </div>
     </div>
@@ -58,17 +58,12 @@
 
     private async void OnModeChanged(ChangeEventArgs args)
     {
-        if (Enum.TryParse<PickerMode>(args.Value.ToString(), out var mode))
+        Enum.TryParse<PickerMode>(args!.Value!.ToString(), out var mode);
+        Mode = mode;
+
+        if (ModeChanged.HasDelegate)
         {
-            Mode = mode;
-            if (ModeChanged.HasDelegate)
-            {
-                await ModeChanged.InvokeAsync(Mode);
-            }
-        }
-        else
-        {
-            throw new ApplicationException($"Selected value isn't of type {nameof(PickerMode)}.");
+            await ModeChanged.InvokeAsync(Mode);
         }
     }
 }

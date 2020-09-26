@@ -1,8 +1,8 @@
 ﻿@using System.Text.RegularExpressions
 
-@inject IJSRuntime JS
+@inject IJSRuntime Js
 
-<input type="text" pattern="@Pattern" class="color-picker__component-input" value="@DecToHex(Value)"
+<input type="text" pattern="@_pattern" class="color-picker__component-input" value="@DecToHex(Value)"
        @ref="_reference" @oninput="@OnValueChanged" />
 
 @code {
@@ -12,30 +12,23 @@
     [Parameter]
     public EventCallback<int> ValueChanged { get; set; }
 
-    private readonly string Pattern;
-    private readonly Regex Regex;
+    private readonly string _pattern;
+    private readonly Regex _regex;
 
     private ElementReference _reference;
 
     public InputComponentHex()
     {
-        Pattern = @"^[0-9A-Z\s]+$";
-        Regex = new Regex(Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        _pattern = @"^[0-9A-Z\s]+$";
+        _regex = new Regex(_pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
     }
 
     private async Task OnValueChanged(ChangeEventArgs args)
     {
-        var value = args.Value.ToString();
-        if (Regex.IsMatch(value))
-        {
-            Value = HexToDec(value);
-        }
-        else
-        {
-            Value = 0;
-        }
+        var value = args!.Value!.ToString();
+        Value = _regex.IsMatch(value!) ? HexToDec(value) : 0;
 
-        await JS.InvokeVoidAsync("setElementValue", _reference, "value", DecToHex(Value));
+        await Js.InvokeVoidAsync("setElementValue", _reference, "value", DecToHex(Value));
 
         if (ValueChanged.HasDelegate)
         {
@@ -46,15 +39,9 @@
     private int HexToDec(string value)
     {
         value = value.ToUpperInvariant();
-
         var result = 0;
-        foreach (var c in value)
+        foreach (var c in value.Where(c => !char.IsWhiteSpace(c)))
         {
-            if (char.IsWhiteSpace(c))
-            {
-                continue;
-            }
-
             result *= 16;
 
             if (char.IsDigit(c))

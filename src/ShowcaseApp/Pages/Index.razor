@@ -6,8 +6,9 @@ Welcome to your new app.
 
 <ValidationInputNumber/>
 
-<ColorPicker @bind-Value="@Color"/>
+<ColorPicker @bind-Value="@_color"/>
 
 @code {
-    private Color Color = new Color(255, 0, 0, 255);
+    // ReSharper disable once FieldCanBeMadeReadOnly.Local
+    private Color _color = new Color(255, 0, 0, 255);
 }

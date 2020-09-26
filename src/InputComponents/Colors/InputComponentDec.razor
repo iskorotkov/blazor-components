@@ -1,6 +1,6 @@
-﻿@inject IJSRuntime JS
+﻿@inject IJSRuntime Js
 
-<input type="number" min="@Min" max="@Max" class="color-picker__component-input" value="@Value"
+<input type="number" min="@_min" max="@_max" class="color-picker__component-input" value="@Value"
        @ref="@_reference" @oninput="@OnValueChanged" />
 
 @code {
@@ -10,24 +10,17 @@
     [Parameter]
     public EventCallback<int> ValueChanged { get; set; }
 
-    private readonly int Min = 0;
-    private readonly int Max = 255;
+    private readonly int _min = 0;
+    private readonly int _max = 255;
 
     private ElementReference _reference;
 
     private async Task OnValueChanged(ChangeEventArgs args)
     {
-        if (int.TryParse(args.Value.ToString(), out var num))
-        {
-            var clamped = Math.Clamp(num, Min, Max);
-            Value = clamped;
-        }
-        else
-        {
-            Value = Min;
-        }
+        var value = args!.Value!.ToString();
+        Value = int.TryParse(value, out var num) ? Math.Clamp(num, _min, _max) : _min;
 
-        await JS.InvokeVoidAsync("setElementValue", _reference, "value", Value);
+        await Js.InvokeVoidAsync("setElementValue", _reference, "value", Value);
 
         if (ValueChanged.HasDelegate)
         {

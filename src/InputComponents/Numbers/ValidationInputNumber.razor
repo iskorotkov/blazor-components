@@ -14,12 +14,12 @@
         (false, true) => "input-number--valid"
         };
 
-    public bool IsValid()
+    private bool IsValid()
     {
         return int.TryParse(Value, out _);
     }
 
-    public bool IsEmpty()
+    private bool IsEmpty()
     {
         return string.IsNullOrEmpty(Value);
     }

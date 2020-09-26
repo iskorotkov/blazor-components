@@ -8,7 +8,7 @@ namespace InputComponents.Colors
         [FriendlyName("RGBA (hex)")] RgbaHex
     }
 
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field)]
     public class FriendlyNameAttribute : Attribute
     {
         public FriendlyNameAttribute(string name) => Name = name;
@@ -22,7 +22,7 @@ namespace InputComponents.Colors
             var type = value.GetType();
             var field = type.GetField(value.ToString());
             var attrType = typeof(FriendlyNameAttribute);
-            return Attribute.GetCustomAttribute(field, attrType) switch
+            return Attribute.GetCustomAttribute(field!, attrType) switch
             {
                 FriendlyNameAttribute attr => attr.Name,
                 _ => throw new ArgumentException($"{value} must have {nameof(FriendlyNameAttribute)} on it.")
