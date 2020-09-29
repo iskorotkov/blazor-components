@@ -1,5 +1,7 @@
 ﻿@page "/"
 
+@using System.Drawing 
+
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
@@ -9,6 +11,5 @@ Welcome to your new app.
 <ColorPicker @bind-Value="@_color"/>
 
 @code {
-    // ReSharper disable once FieldCanBeMadeReadOnly.Local
-    private Color _color = new Color(255, 0, 0, 255);
+    private Color _color { get; set; } = Color.FromArgb(0, 0, 255);
 }

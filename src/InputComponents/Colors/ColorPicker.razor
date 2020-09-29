@@ -1,4 +1,6 @@
-﻿<div class="color-picker">
+﻿@using System.Drawing
+
+<div class="color-picker">
     <div class="color-picker__values-column">
         <label for="picker-mode" class="color-picker__mode-label">Color picker mode</label>
         <select id="picker-mode" class="color-picker__mode-list" value="@Mode" @onchange="@OnModeChanged">
@@ -14,16 +16,16 @@
             @switch (Mode)
             {
                 case PickerMode.RgbaDec:
-                    <InputComponentDec @bind-Value="@Value.R" />
-                    <InputComponentDec @bind-Value="@Value.G" />
-                    <InputComponentDec @bind-Value="@Value.B" />
-                    <InputComponentDec @bind-Value="@Value.A" />
+                    <InputComponentDec Value="@Value.R" ValueChanged="@SetR"/>
+                    <InputComponentDec Value="@Value.G" ValueChanged="@SetG" />
+                    <InputComponentDec Value="@Value.B" ValueChanged="@SetB" />
+                    <InputComponentDec Value="@Value.A" ValueChanged="@SetA" />
                     break;
                 case PickerMode.RgbaHex:
-                    <InputComponentHex @bind-Value="@Value.R" />
-                    <InputComponentHex @bind-Value="@Value.G" />
-                    <InputComponentHex @bind-Value="@Value.B" />
-                    <InputComponentHex @bind-Value="@Value.A" />
+                    <InputComponentHex Value="@Value.R" ValueChanged="@SetR" />
+                    <InputComponentHex Value="@Value.G" ValueChanged="@SetG" />
+                    <InputComponentHex Value="@Value.B" ValueChanged="@SetB" />
+                    <InputComponentHex Value="@Value.A" ValueChanged="@SetA" />
                     break;
                 default:
                     throw new ArgumentException("Selected color picker mode must be implemented.", nameof(Mode));
@@ -31,13 +33,17 @@
         </div>
     </div>
 
-    <div class="color-picker__preview" style="background-color: @Value.CssValue;">
+    <div class="color-picker__preview" style="background-color: @Model.CssValue;">
     </div>
 </div>
 
 @code {
     [Parameter]
-    public Color Value { get; set; }
+    public Color Value
+    {
+        get => Model.ToColor();
+        set => Model.FromColor(value);
+    }
 
     [Parameter]
     public EventCallback<Color> ValueChanged { get; set; }
@@ -48,15 +54,17 @@
     [Parameter]
     public EventCallback<PickerMode> ModeChanged { get; set; }
 
-    private async void OnValueChanged(Color color)
+    private ColorVm Model { get; set; } = new ColorVm(255, 0, 0, 255);
+
+    private async Task OnValueChanged()
     {
         if (ValueChanged.HasDelegate)
         {
-            await ValueChanged.InvokeAsync(color);
+            await ValueChanged.InvokeAsync(Value);
         }
     }
 
-    private async void OnModeChanged(ChangeEventArgs args)
+    private async Task OnModeChanged(ChangeEventArgs args)
     {
         Enum.TryParse<PickerMode>(args!.Value!.ToString(), out var mode);
         Mode = mode;
@@ -65,5 +73,29 @@
         {
             await ModeChanged.InvokeAsync(Mode);
         }
+    }
+
+    private async Task SetR(int r)
+    {
+        Model.R = r;
+        await OnValueChanged();
+    }
+
+    private async Task SetG(int g)
+    {
+        Model.G = g;
+        await OnValueChanged();
+    }
+
+    private async Task SetB(int b)
+    {
+        Model.B = b;
+        await OnValueChanged();
+    }
+
+    private async Task SetA(int a)
+    {
+        Model.A = a;
+        await OnValueChanged();
     }
 }
