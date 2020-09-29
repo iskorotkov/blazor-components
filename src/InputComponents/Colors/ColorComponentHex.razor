@@ -1,5 +1,5 @@
 ﻿@using System.Text.RegularExpressions
-@using System.Globalization 
+@using System.Globalization
 
 @inject IJSRuntime Js
 
@@ -15,10 +15,12 @@
 
     private readonly string _pattern;
     private readonly Regex _regex;
+    private readonly int _min = 0;
+    private readonly int _max = 255;
 
     private ElementReference _reference;
 
-    public InputComponentHex()
+    public ColorComponentHex()
     {
         _pattern = @"^[0-9A-F]+$";
         _regex = new Regex(_pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
@@ -27,22 +29,27 @@
     private async Task OnValueChanged(ChangeEventArgs args)
     {
         var hex = args!.Value!.ToString();
-        if (_regex.IsMatch(hex!))
+        if (string.IsNullOrWhiteSpace(hex))
+        {
+            Value = _min;
+        }
+        else if (_regex.IsMatch(hex!))
         {
             Value = HexToDec(hex);
-            if (ValueChanged.HasDelegate)
-            {
-                await ValueChanged.InvokeAsync(Value);
-            }
         }
 
         await Js.InvokeVoidAsync("setElementValue", _reference, "value", DecToHex(Value));
+
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
     }
 
     private int HexToDec(string value)
     {
         var result = int.Parse(value, NumberStyles.HexNumber);
-        return Math.Clamp(result, 0, 255);
+        return Math.Clamp(result, _min, 255);
     }
 
     private string DecToHex(int value) => value.ToString("X2");

@@ -4,9 +4,9 @@
     <div class="color-picker__values-column">
         <label for="picker-mode" class="color-picker__mode-label">Color picker mode</label>
         <select id="picker-mode" class="color-picker__mode-list" value="@Mode" @onchange="@OnModeChanged">
-            @foreach (var mode in typeof(PickerMode).GetEnumNames())
+            @foreach (var mode in typeof(ColorPickerMode).GetEnumNames())
             {
-                var value = Enum.Parse<PickerMode>(mode);
+                var value = Enum.Parse<ColorPickerMode>(mode);
                 var friendlyName = value.FriendlyName();
                 <option class="color-picker__mode-option" value="@mode">@friendlyName</option>
             }
@@ -15,17 +15,17 @@
         <div class="color-picker__input-group">
             @switch (Mode)
             {
-                case PickerMode.RgbaDec:
-                    <InputComponentDec Value="@Value.R" ValueChanged="@SetR"/>
-                    <InputComponentDec Value="@Value.G" ValueChanged="@SetG" />
-                    <InputComponentDec Value="@Value.B" ValueChanged="@SetB" />
-                    <InputComponentDec Value="@Value.A" ValueChanged="@SetA" />
+                case ColorPickerMode.RgbaDec:
+                    <ColorComponentDec Value="@Value.R" ValueChanged="@SetR"/>
+                    <ColorComponentDec Value="@Value.G" ValueChanged="@SetG" />
+                    <ColorComponentDec Value="@Value.B" ValueChanged="@SetB" />
+                    <ColorComponentDec Value="@Value.A" ValueChanged="@SetA" />
                     break;
-                case PickerMode.RgbaHex:
-                    <InputComponentHex Value="@Value.R" ValueChanged="@SetR" />
-                    <InputComponentHex Value="@Value.G" ValueChanged="@SetG" />
-                    <InputComponentHex Value="@Value.B" ValueChanged="@SetB" />
-                    <InputComponentHex Value="@Value.A" ValueChanged="@SetA" />
+                case ColorPickerMode.RgbaHex:
+                    <ColorComponentHex Value="@Value.R" ValueChanged="@SetR" />
+                    <ColorComponentHex Value="@Value.G" ValueChanged="@SetG" />
+                    <ColorComponentHex Value="@Value.B" ValueChanged="@SetB" />
+                    <ColorComponentHex Value="@Value.A" ValueChanged="@SetA" />
                     break;
                 default:
                     throw new ArgumentException("Selected color picker mode must be implemented.", nameof(Mode));
@@ -49,10 +49,10 @@
     public EventCallback<Color> ValueChanged { get; set; }
 
     [Parameter]
-    public PickerMode Mode { get; set; } = PickerMode.RgbaDec;
+    public ColorPickerMode Mode { get; set; } = ColorPickerMode.RgbaDec;
 
     [Parameter]
-    public EventCallback<PickerMode> ModeChanged { get; set; }
+    public EventCallback<ColorPickerMode> ModeChanged { get; set; }
 
     private ColorVm Model { get; set; } = new ColorVm(255, 0, 0, 255);
 
@@ -66,7 +66,7 @@
 
     private async Task OnModeChanged(ChangeEventArgs args)
     {
-        Enum.TryParse<PickerMode>(args!.Value!.ToString(), out var mode);
+        Enum.TryParse<ColorPickerMode>(args!.Value!.ToString(), out var mode);
         Mode = mode;
 
         if (ModeChanged.HasDelegate)

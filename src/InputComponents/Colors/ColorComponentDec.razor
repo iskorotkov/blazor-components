@@ -18,7 +18,14 @@
     private async Task OnValueChanged(ChangeEventArgs args)
     {
         var value = args!.Value!.ToString();
-        Value = int.TryParse(value, out var num) ? Math.Clamp(num, _min, _max) : _min;
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            Value = _min;
+        }
+        else if (int.TryParse(value, out var num))
+        {
+            Value = Math.Clamp(num, _min, _max);
+        }
 
         await Js.InvokeVoidAsync("setElementValue", _reference, "value", Value);
 

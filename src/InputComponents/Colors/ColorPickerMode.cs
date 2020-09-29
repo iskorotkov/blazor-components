@@ -2,7 +2,7 @@
 
 namespace InputComponents.Colors
 {
-    public enum PickerMode
+    public enum ColorPickerMode
     {
         [FriendlyName("RGBA (dec)")] RgbaDec,
         [FriendlyName("RGBA (hex)")] RgbaHex
