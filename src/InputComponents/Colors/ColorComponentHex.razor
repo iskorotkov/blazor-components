@@ -4,7 +4,7 @@
 @inject IJSRuntime Js
 
 <input type="text" pattern="@_pattern" class="color-picker__component-input" value="@DecToHex(Value)"
-       @ref="_reference" @oninput="@OnValueChanged" />
+       @ref="_reference" @oninput="@UpdateValue" />
 
 @code {
     [Parameter]
@@ -26,8 +26,9 @@
         _regex = new Regex(_pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
     }
 
-    private async Task OnValueChanged(ChangeEventArgs args)
+    private async Task UpdateValue(ChangeEventArgs args)
     {
+        var oldValue = Value;
         var hex = args!.Value!.ToString();
         if (string.IsNullOrWhiteSpace(hex))
         {
@@ -40,6 +41,14 @@
 
         await Js.InvokeVoidAsync("setElementValue", _reference, "value", DecToHex(Value));
 
+        if (oldValue != Value)
+        {
+            await OnValueChanged();
+        }
+    }
+
+    private async Task OnValueChanged()
+    {
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value);
@@ -49,7 +58,7 @@
     private int HexToDec(string value)
     {
         var result = int.Parse(value, NumberStyles.HexNumber);
-        return Math.Clamp(result, _min, 255);
+        return Math.Clamp(result, _min, _max);
     }
 
     private string DecToHex(int value) => value.ToString("X2");

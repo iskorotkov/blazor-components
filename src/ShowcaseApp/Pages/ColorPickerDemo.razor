@@ -1,0 +1,43 @@
+﻿@using System.Drawing
+
+@page "/color-picker"
+
+<h1>Color picker demo</h1>
+
+<ColorPicker @ref="@ColorPicker" Value="@Color" ValueChanged="@OnColorChanged" />
+
+<button style="background-color: @ButtonColor;" @onclick="@UpdateColor">Get color</button>
+
+<button @onclick="@SetRed">Set red color</button>
+
+<button @onclick="@SetGreen">Set green color</button>
+
+<button @onclick="@SetBlue">Set blue color</button>
+
+<p>Color was changed @TotalChanges times.</p>
+
+<p>Color value: (@Color.R, @Color.G, @Color.B, @Color.A)</p>
+
+@code {
+    private Color Color { get; set; } = Color.FromArgb(0, 0, 255);
+    private int TotalChanges { get; set; }
+    private ColorPicker ColorPicker { get; set; }
+    private string ButtonColor { get; set; }
+
+    private void UpdateColor()
+    {
+        var color = ColorPicker.Value;
+        ButtonColor = $"rgba({color.R}, {color.G}, {color.B}, {color.A / 255.0})";
+    }
+
+    private void SetRed() => Color = Color.FromArgb(255, 0, 0);
+    private void SetGreen() => Color = Color.FromArgb(0, 255, 0);
+    private void SetBlue() => Color = Color.FromArgb(0, 0, 255);
+
+    private void OnColorChanged(Color color)
+    {
+        Color = color;
+        TotalChanges++;
+        Console.WriteLine(TotalChanges);
+    }
+}

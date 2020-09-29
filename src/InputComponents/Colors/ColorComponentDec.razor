@@ -1,7 +1,7 @@
 ﻿@inject IJSRuntime Js
 
 <input type="number" min="@_min" max="@_max" class="color-picker__component-input" value="@Value"
-       @ref="@_reference" @oninput="@OnValueChanged" />
+       @ref="@_reference" @oninput="@UpdateValue" />
 
 @code {
     [Parameter]
@@ -15,20 +15,29 @@
 
     private ElementReference _reference;
 
-    private async Task OnValueChanged(ChangeEventArgs args)
+    private async Task UpdateValue(ChangeEventArgs args)
     {
-        var value = args!.Value!.ToString();
-        if (string.IsNullOrWhiteSpace(value))
+        var oldValue = Value;
+        var newValue = args!.Value!.ToString();
+        if (string.IsNullOrWhiteSpace(newValue))
         {
             Value = _min;
         }
-        else if (int.TryParse(value, out var num))
+        else if (int.TryParse(newValue, out var num))
         {
             Value = Math.Clamp(num, _min, _max);
         }
 
         await Js.InvokeVoidAsync("setElementValue", _reference, "value", Value);
 
+        if (oldValue != Value)
+        {
+            await OnValueChanged();
+        }
+    }
+
+    private async Task OnValueChanged()
+    {
         if (ValueChanged.HasDelegate)
         {
             await ValueChanged.InvokeAsync(Value);
