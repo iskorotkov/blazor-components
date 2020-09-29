@@ -26,15 +26,17 @@
 
     private async Task OnValueChanged(ChangeEventArgs args)
     {
-        var value = args!.Value!.ToString();
-        Value = _regex.IsMatch(value!) ? HexToDec(value) : Value;
+        var hex = args!.Value!.ToString();
+        if (_regex.IsMatch(hex!))
+        {
+            Value = HexToDec(hex);
+            if (ValueChanged.HasDelegate)
+            {
+                await ValueChanged.InvokeAsync(Value);
+            }
+        }
 
         await Js.InvokeVoidAsync("setElementValue", _reference, "value", DecToHex(Value));
-
-        if (ValueChanged.HasDelegate)
-        {
-            await ValueChanged.InvokeAsync(Value);
-        }
     }
 
     private int HexToDec(string value)
@@ -43,8 +45,5 @@
         return Math.Clamp(result, 0, 255);
     }
 
-    private string DecToHex(int value)
-    {
-        return value.ToString("X2");
-    }
+    private string DecToHex(int value) => value.ToString("X2");
 }
