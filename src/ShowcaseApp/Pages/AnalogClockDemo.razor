@@ -1,0 +1,16 @@
+﻿@page "/analog-clock"
+
+<h3>Analog clock demo</h3>
+
+<p>UTC time (UTC+0):</p>
+<AnalogClock />
+
+<p>Moscow time (UTC+3):</p>
+<AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)" />
+
+<p>Perm time(UTC+5):</p>
+<AnalogClock OffsetFromUtc="@TimeSpan.FromHours(5)" />
+
+@code {
+
+}

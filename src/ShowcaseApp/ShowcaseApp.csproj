@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\InputComponents\InputComponents.csproj" />
+      <ProjectReference Include="..\VisualComponents\VisualComponents.csproj" />
     </ItemGroup>
 
 </Project>
