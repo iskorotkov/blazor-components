@@ -2,15 +2,67 @@
 
 <h3>Analog clock demo</h3>
 
-<p>UTC time (UTC+0):</p>
-<AnalogClock />
+<div class="clock-row">
+    <div class="clock-box">
+        <p>UTC time (UTC+0):</p>
+        <div class="clock clock--big">
+            <AnalogClock/>
+        </div>
+    </div>
+</div>
 
-<p>Moscow time (UTC+3):</p>
-<AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)" />
+<div class="clock-row">
+    <div class="clock-box">
+        <p>Moscow time (UTC+3):</p>
+        <div class="clock clock--medium">
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+        </div>
+    </div>
 
-<p>Perm time(UTC+5):</p>
-<AnalogClock OffsetFromUtc="@TimeSpan.FromHours(5)" />
+    <div class="clock-box">
+        <p>Perm time(UTC+5):</p>
+        <div class="clock clock--medium">
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(5)"/>
+        </div>
+    </div>
+</div>
+
+<div class="clock-row">
+    <div class="clock-box">
+        <p>Paris time (UTC+3):</p>
+        <div class="clock clock--small">
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+        </div>
+    </div>
+
+    <div class="clock-box">
+        <p>Berlin time (UTC+3):</p>
+        <div class="clock clock--small">
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+        </div>
+    </div>
+
+    <div class="clock-box">
+        <p>New York time (UTC+3):</p>
+        <div class="clock clock--small">
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+        </div>
+    </div>
+
+    <div class="clock-box">
+        <p>Saint Petersburg time (UTC+3):</p>
+        <div class="clock clock--small">
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+        </div>
+    </div>
+
+    <div class="clock-box">
+        <p>Rome time (UTC+3):</p>
+        <div class="clock clock--small">
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+        </div>
+    </div>
+</div>
 
 @code {
-
 }
