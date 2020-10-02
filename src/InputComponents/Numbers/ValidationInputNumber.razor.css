@@ -1,0 +1,10 @@
+﻿.input-number--valid {
+    background-color: green;
+}
+
+.input-number--invalid {
+    background-color: red;
+}
+
+.input-number--empty {
+}
