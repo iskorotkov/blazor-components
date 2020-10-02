@@ -29,23 +29,23 @@
 
 <div class="clock-row">
     <div class="clock-box">
-        <p>Paris time (UTC+3):</p>
+        <p>Paris time (UTC+1):</p>
         <div class="clock clock--small">
-            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(1)"/>
         </div>
     </div>
 
     <div class="clock-box">
-        <p>Berlin time (UTC+3):</p>
+        <p>Berlin time (UTC+2):</p>
         <div class="clock clock--small">
-            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(2)"/>
         </div>
     </div>
 
     <div class="clock-box">
-        <p>New York time (UTC+3):</p>
+        <p>New York time (UTC-5):</p>
         <div class="clock clock--small">
-            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(-5)"/>
         </div>
     </div>
 
@@ -57,12 +57,9 @@
     </div>
 
     <div class="clock-box">
-        <p>Rome time (UTC+3):</p>
+        <p>Rome time (UTC+2):</p>
         <div class="clock clock--small">
-            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(3)"/>
+            <AnalogClock OffsetFromUtc="@TimeSpan.FromHours(2)"/>
         </div>
     </div>
 </div>
-
-@code {
-}
