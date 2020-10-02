@@ -1,4 +1,4 @@
-.clock * {
+﻿.clock * {
     box-sizing: border-box;
 }
 
@@ -6,10 +6,10 @@
     position: relative;
     background-color: #fff;
     overflow: hidden;
-    width: 500px;
-    height: 500px;
-    border-radius: 250px;
-    border: 10px solid #111;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: thick solid #111;
 }
 
 .clock::after {
@@ -28,8 +28,8 @@
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-    width: 20px;
-    height: 20px;
+    width: 4%;
+    height: 4%;
     background-color: black;
     border-radius: 50%;
 }
@@ -40,17 +40,28 @@
     height: 100%;
     top: 0;
     left: 0;
-    padding: 32px;
 }
 
 .tick::after {
     content: '';
     position: absolute;
-    top: 8px;
+    top: 2%;
     left: 50%;
     transform: translateX(-50%);
-    width: 1px;
-    height: 8px;
+    width: 0.4%;
+    height: 2%;
+    border-radius: 100% / 30%;
+    background-color: black;
+}
+
+.tick--big::after {
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1%;
+    height: 4%;
+    border-radius: 100% / 30%;
     background-color: black;
 }
 
@@ -62,20 +73,8 @@
     top: 0;
     left: 0;
     text-align: center;
-    font-size: 2em;
     font-weight: 700;
-    padding: 32px;
-}
-
-.num::after {
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 16px;
-    background-color: black;
+    padding: 7%;
 }
 
 .hand {
@@ -96,18 +95,18 @@
 
 .sec {
     height: 45%;
-    width: 2px;
-    border-radius: 1px;
+    width: 0.5%;
+    border-radius: 100% / 2%;
 }
 
 .min {
     height: 35%;
-    width: 4px;
-    border-radius: 2px;
+    width: 1%;
+    border-radius: 100% / 5%;
 }
 
 .hour {
     height: 25%;
-    width: 8px;
-    border-radius: 4px;
+    width: 2%;
+    border-radius: 100% / 10%;
 }
