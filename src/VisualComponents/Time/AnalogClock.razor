@@ -1,0 +1,72 @@
+﻿@using System.Threading
+
+<div class="clock">
+    @for (var degrees = 1; degrees <= 360; degrees++)
+    {
+        if (degrees % 30 == 0)
+        {
+            var hour = degrees / 30;
+
+            <div class="num" style="@Rotate(degrees)">
+                <div style="@Rotate(-degrees)">@hour</div>
+            </div>
+            <div class="tick tick--big" style="@Rotate(degrees)"></div>
+
+        }
+        else if (degrees % 6 == 0)
+        {
+            <div class="tick" style="@Rotate(degrees)"></div>
+        }
+    }
+
+    <div class="hand" style="@HoursHandPosition">
+        <div class="hour"></div>
+    </div>
+
+    @if (ShowMinutes)
+    {
+        <div class="hand" style="@MinutesHandPosition">
+            <div class="min"></div>
+        </div>
+    }
+
+    @if (ShowSeconds)
+    {
+        <div class="hand" style="@SecondsHandPosition">
+            <div class="sec"></div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public TimeSpan OffsetFromUtc { get; set; }
+    [Parameter] public bool ShowMinutes { get; set; } = true;
+    [Parameter] public bool ShowSeconds { get; set; } = true;
+    [Parameter] public int MsBetweenUpdates { get; set; } = 1000;
+
+    private DateTime Time { get; set; }
+
+    private string HoursHandPosition => $"transform: rotate({30.0 * (Time.Hour + Time.Minute / 60.0)}deg);";
+    private string MinutesHandPosition => $"transform: rotate({6.0 * (Time.Minute + Time.Second / 60.0)}deg);";
+    private string SecondsHandPosition => $"transform: rotate({6 * Time.Second}deg);";
+
+    private Timer _timer;
+
+    protected override void OnInitialized()
+    {
+        _timer = new Timer(UpdateTime, null, 0, MsBetweenUpdates);
+    }
+
+    private void UpdateTime(object state)
+    {
+        Time = DateTime.UtcNow + OffsetFromUtc;
+        StateHasChanged();
+    }
+
+    private string Rotate(int degrees) => $"transform: rotate({degrees}deg);";
+
+    public void Dispose()
+    {
+        _timer.Dispose();
+    }
+}

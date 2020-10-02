@@ -1,5 +1,4 @@
-﻿/*Color picker*/
-.color-picker {
+﻿.color-picker {
     position: relative;
     display: flex;
     flex-flow: row nowrap;
@@ -47,16 +46,3 @@
 .color-picker__mode-label {
     display: none;
 }
-
-/*Validation input number*/
-.input-number--valid {
-    background-color: green;
-}
-
-.input-number--invalid {
-    background-color: red;
-}
-
-.input-number--empty {
-}
-
