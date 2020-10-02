@@ -42,6 +42,7 @@
     [Parameter] public TimeSpan OffsetFromUtc { get; set; }
     [Parameter] public bool ShowMinutes { get; set; } = true;
     [Parameter] public bool ShowSeconds { get; set; } = true;
+    [Parameter] public int MsBetweenUpdates { get; set; } = 1000;
 
     private DateTime Time { get; set; }
 
@@ -53,7 +54,7 @@
 
     protected override void OnInitialized()
     {
-        _timer = new Timer(UpdateTime, null, 0, 1000);
+        _timer = new Timer(UpdateTime, null, 0, MsBetweenUpdates);
     }
 
     private void UpdateTime(object state)
