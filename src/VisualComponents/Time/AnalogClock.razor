@@ -7,33 +7,33 @@
         {
             var hour = degrees / 30;
 
-            <div class="num" style="@Rotate(degrees)">
+            <div class="clock__num" style="@Rotate(degrees)">
                 <div style="@Rotate(-degrees)">@hour</div>
             </div>
-            <div class="tick tick--big" style="@Rotate(degrees)"></div>
+            <div class="clock__tick clock__tick--big" style="@Rotate(degrees)"></div>
 
         }
         else if (degrees % 6 == 0)
         {
-            <div class="tick" style="@Rotate(degrees)"></div>
+            <div class="clock__tick" style="@Rotate(degrees)"></div>
         }
     }
 
-    <div class="hand" style="@HoursHandPosition">
-        <div class="hour"></div>
+    <div class="clock__hand" style="@HoursHandPosition">
+        <div class="clock__hour-hand"></div>
     </div>
 
     @if (ShowMinutes)
     {
-        <div class="hand" style="@MinutesHandPosition">
-            <div class="min"></div>
+        <div class="clock__hand" style="@MinutesHandPosition">
+            <div class="clock__min-hand"></div>
         </div>
     }
 
     @if (ShowSeconds)
     {
-        <div class="hand" style="@SecondsHandPosition">
-            <div class="sec"></div>
+        <div class="clock__hand" style="@SecondsHandPosition">
+            <div class="clock__sec-hand"></div>
         </div>
     }
 </div>

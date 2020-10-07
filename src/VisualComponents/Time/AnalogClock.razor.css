@@ -34,7 +34,7 @@
     border-radius: 50%;
 }
 
-.tick {
+.clock__tick {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -42,7 +42,7 @@
     left: 0;
 }
 
-.tick::after {
+.clock__tick::after {
     content: '';
     position: absolute;
     top: 2%;
@@ -54,7 +54,7 @@
     background-color: black;
 }
 
-.tick--big::after {
+.clock__tick--big::after {
     position: absolute;
     top: 2%;
     left: 50%;
@@ -65,7 +65,7 @@
     background-color: black;
 }
 
-.num {
+.clock__num {
     font-family: 'Calibri', sans-serif;
     position: absolute;
     width: 100%;
@@ -77,7 +77,7 @@
     padding: 7%;
 }
 
-.hand {
+.clock__hand {
     position: absolute;
     top: 0;
     left: 0;
@@ -85,7 +85,7 @@
     height: 100%;
 }
 
-.hand div {
+.clock__hand div {
     position: absolute;
     bottom: 50%;
     left: 50%;
@@ -93,19 +93,19 @@
     background-color: #000;
 }
 
-.sec {
+.clock__sec-hand {
     height: 45%;
     width: 0.5%;
     border-radius: 100% / 2%;
 }
 
-.min {
+.clock__min-hand {
     height: 35%;
     width: 1%;
     border-radius: 100% / 5%;
 }
 
-.hour {
+.clock__hour-hand {
     height: 25%;
     width: 2%;
     border-radius: 100% / 10%;
