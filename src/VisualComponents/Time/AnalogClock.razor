@@ -39,9 +39,27 @@
 </div>
 
 @code {
+    /// <summary>
+    /// Offset from UTC for this clock.
+    /// </summary>
     [Parameter] public TimeSpan OffsetFromUtc { get; set; }
+
+    /// <summary>
+    /// Whether to show minute hand.
+    /// </summary>
     [Parameter] public bool ShowMinutes { get; set; } = true;
+
+    /// <summary>
+    /// Whether to show seconds hand.
+    /// </summary>
     [Parameter] public bool ShowSeconds { get; set; } = true;
+
+    /// <summary>
+    /// Ms between clock updates.
+    /// </summary>
+    /// <remarks>
+    /// <para>The higher the value, the less lag between real time and shown time will be.</para>
+    /// </remarks>
     [Parameter] public int MsBetweenUpdates { get; set; } = 1000;
 
     private DateTime Time { get; set; }

@@ -1,6 +1,9 @@
 ﻿<input type="text" class="@ValidationClass" @bind-value="@Value" @bind-value:event="oninput" @onchange="@OnChanged"/>
 
 @code {
+    /// <summary>
+    /// Value to bind.
+    /// </summary>
     [Parameter]
     public string Value { get; set; }
 

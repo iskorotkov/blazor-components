@@ -4,6 +4,10 @@
        @ref="@_reference" @oninput="@UpdateValue" />
 
 @code {
+    /// <summary>
+    /// Value of single color component (scalar value) of base 10.
+    /// </summary>
+    /// See <see cref="ColorComponentHex"/> for base 16 value.
     [Parameter]
     public int Value { get; set; }
 

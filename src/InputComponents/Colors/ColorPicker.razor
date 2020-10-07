@@ -38,6 +38,9 @@
 </div>
 
 @code {
+    /// <summary>
+    /// <c>System.Drawing.Color</c> value to bind.
+    /// </summary>
     [Parameter]
     public Color Value
     {
@@ -48,6 +51,9 @@
     [Parameter]
     public EventCallback<Color> ValueChanged { get; set; }
 
+    /// <summary>
+    /// Input mode to use.
+    /// </summary>
     [Parameter]
     public ColorPickerMode Mode { get; set; } = ColorPickerMode.RgbaDec;
 
