@@ -19,7 +19,7 @@
     border-radius: 10px;
 }
 
-.color-picker__component-input {
+::deep .color-picker__component-input {
     display: block;
     min-width: 5em;
     width: 100%;
